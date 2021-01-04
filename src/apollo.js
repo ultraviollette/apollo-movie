@@ -1,7 +1,7 @@
 import ApolloClient from "apollo-boost";
 
 const client = new ApolloClient({
-  uri: "https://movieql.now/sh/",
+  uri: "https://tmdb.apps.quintero.io/",
 });
 
 export default client;

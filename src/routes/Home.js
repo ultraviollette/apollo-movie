@@ -7,11 +7,14 @@ import Movie from "../components/Movie";
 const GET_MOVIES = gql`
   {
     movies {
-      id
-      medium_cover_image
+      movie {
+        id
+        poster(size: W500)
+      }
     }
   }
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,8 +60,8 @@ const Movies = styled.div`
 `;
 
 export default () => {
-  const { loading, error, data } = useQuery(GET_MOVIES);
-  //   console.log(loading, error, data);
+  const { loading, data } = useQuery(GET_MOVIES);
+  // console.log(loading, data);
   return (
     <Container>
       <Header>
@@ -66,9 +69,11 @@ export default () => {
         <Subtitle>Awesome GraphQL 🌈</Subtitle>
       </Header>
       {loading && <Loading>Loading...</Loading>}
-      {!loading &&
-        data.movies &&
-        data.movies.map((m) => <Movie key={m.id} id={m.id} />)}
+      <Movies>
+        {data?.movies?.map((m) => (
+          <Movie key={m.id} id={m.id} bg={m.poster(`size: W500`)} />
+        ))}
+      </Movies>
     </Container>
   );
 };
