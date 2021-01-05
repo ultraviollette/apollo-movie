@@ -8,13 +8,14 @@ const GET_MOVIE = gql`
   query getMovie($id: Int!) {
     movies {
       movie(id: $id) {
+        id
         title
         poster(size: W500)
         originalLanguage
         rating
         overview
+        isLiked @client
       }
-
     }
   }
 `;
@@ -63,14 +64,16 @@ export default () => {
   return (
     <Container>
       <Column>
-        <Title>{loading ? "Loading..." : data.movie.title}</Title>
-        
-            <Subtitle>
-              {data?.movie?.originalLanguage} · {data?.movie?.rating}
-            </Subtitle>
-            <Description>{data?.movie?.overview} </Description>
-          
-        
+        <Title>
+          {loading
+            ? "Loading..."
+            : `${data.movie.title} ${data.movie.isLiked ? "💖" : "💔"}`}
+        </Title>
+
+        <Subtitle>
+          {data?.movie?.originalLanguage} · {data?.movie?.rating}
+        </Subtitle>
+        <Description>{data?.movie?.overview} </Description>
       </Column>
       <Poster bg={data?.data.movie?.data.movie.poster(`size: W500`)}></Poster>
     </Container>
